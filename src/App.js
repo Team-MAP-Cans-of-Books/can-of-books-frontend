@@ -11,9 +11,7 @@ import axios from 'axios';
 
 import {
   BrowserRouter as Router,
-  Switch,
   Route,
-  BrowserRouter
 } from "react-router-dom";
 
 class App extends React.Component {
@@ -27,7 +25,7 @@ class App extends React.Component {
           header: {"Authorization" : `Bearer ${jwt}`},
           method: 'get',
           baseURL: process.env.REACT_APP_SERVER,
-          url: '/profile'
+          url: '/book'
         }
         axios(config)
           .then(axiosResults => console.log(axiosResults.data))
@@ -45,17 +43,17 @@ class App extends React.Component {
         <Router>
           <IsLoadingAndError>
             <Header isAuthenticated={isAuthenticated}/>
-            <Switch>
+            {/* <Switch> */}
               {/* <BrowserRouter> */}
                 <Route exact path="/">
                   <Login />
                   {isAuthenticated ? <BestBooks /> : null}
                 </Route>
                 <Route exact path="/profile">
-                  {isAuthenticated ? <Profile userInfo={user}/> : null}
+                  {isAuthenticated ? <Profile/> : null}
                 </Route>
               {/* </BrowserRouter> */}
-            </Switch>
+            {/* </Switch> */}
             <Footer />
           </IsLoadingAndError>
         </Router>

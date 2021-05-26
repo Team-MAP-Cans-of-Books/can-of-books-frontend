@@ -1,19 +1,87 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Jumbotron from 'react-bootstrap/Jumbotron';
 import './BestBooks.css';
+import axios from 'axios';
+import { withAuth0 } from '@auth0/auth0-react';
+import { Carousel, Container } from 'react-bootstrap';
 
 class MyFavoriteBooks extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      bookData: [],
+    };
+  }
+
+  componentDidMount = async () => {
+    await axios.get(`${process.env.REACT_APP_SERVER}/books`)
+      .then(res => {
+        this.setState({
+          bookData: res.books
+        })
+      })
+  }
+
+  //   if(this.state.bookData.length > 0) {
+  //   render() {
+  //     return (
+  //       <div>
+  //         <Container>
+  //           <Carousel>
+
+  //             <Carousel.Item>
+  //               <img className="d-block w-150"
+  //                 src="https://via.placeholder.com/900x500/111111/111111?text=' '"
+  //                 alt={`slide`} />
+  //               <Carousel.Caption>
+  //               </Carousel.Caption>
+  //             </Carousel.Item>
+  //           </Carousel>
+  //         </Container>
+  //       </div>
+  //     )
+  //   }
+  // } 
+  // else {
+  //   return;
+  // }
+
+
+
+
   render() {
-    return(
-      <Jumbotron>
-        <h1>My Favorite Books</h1>
-        <p>
-          This is a collection of my favorite books
-        </p>
-      </Jumbotron>
+    console.log(this.state.bookData)
+    return (
+      <div>
+        {this.state.bookData !== [] ?
+          <Container>
+            <Carousel>
+              <Carousel.Item>
+                <img className="d-block w-150"
+                  src="https://via.placeholder.com/900x500/111111/111111?text=' '"
+                  alt={`slide`} />
+                <Carousel.Caption>
+                </Carousel.Caption>
+              </Carousel.Item>
+            </Carousel>
+          </Container> : null
+        }
+        {/* <Container>
+          <Carousel>
+
+            <Carousel.Item>
+              <img className="d-block w-150"
+                src="https://via.placeholder.com/900x500/111111/111111?text=' '"
+                alt={`slide`} />
+              <Carousel.Caption>
+              </Carousel.Caption>
+            </Carousel.Item>
+          </Carousel>
+        </Container> */}
+      </div>
     )
   }
 }
 
-export default MyFavoriteBooks;
+export default withAuth0(MyFavoriteBooks);
