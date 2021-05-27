@@ -15,25 +15,6 @@ import {
 } from "react-router-dom";
 
 class App extends React.Component {
-  componentDidMount = () => {
-    if(this.props.auth0.isAuthenticated) {
-      this.props.auth0.getIdTokenClaims()
-      .then(res => {
-        const jwt = res.__raw;
-
-        const config = {
-          header: {"Authorization" : `Bearer ${jwt}`},
-          method: 'get',
-          baseURL: process.env.REACT_APP_SERVER,
-          url: '/book'
-        }
-        axios(config)
-          .then(axiosResults => console.log(axiosResults.data))
-          .catch(err => console.error(err));
-      })
-      .catch(err => console.error(err));
-    }
-  }
 
   render() {
     const { user, isAuthenticated } = this.props.auth0;
