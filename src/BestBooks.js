@@ -4,6 +4,7 @@ import './BestBooks.css';
 import axios from 'axios';
 import { withAuth0 } from '@auth0/auth0-react';
 import { Carousel, Container, Form, Button} from 'react-bootstrap';
+// import BookFormModal from './BookFormModal';
 
 class MyFavoriteBooks extends React.Component {
   constructor(props) {
@@ -77,9 +78,10 @@ class MyFavoriteBooks extends React.Component {
 
   deleteBook = async (title) => {
     console.log(title);
+    console.log(this.state.bookData);
     let bookDel = 0;
     for (let i = 0; i< this.state.bookData.length; i++) {
-      if(this.state.bookData[i].title === title){
+      if(this.state.bookData[i].name === title){
         bookDel = i;
       }
     };
@@ -92,7 +94,9 @@ class MyFavoriteBooks extends React.Component {
           headers: {"Authorization" : `Bearer ${jwt}`},
           method: 'delete',
           baseURL: process.env.REACT_APP_SERVER,
-          url: `/books:${this.state.bookData[bookDel].title}`,
+          url: '/books',
+          params: { bookName: this.state.bookData[bookDel].name }
+
         }
         axios(config)
           .then(response => {
@@ -118,9 +122,9 @@ class MyFavoriteBooks extends React.Component {
                   src="https://via.placeholder.com/900x500/111111/111111?text=' '"
                   alt={`slide`} />
                 <Carousel.Caption>
-                  {book.title}
+                  {book.name}
                   {book.author}
-                  <Button onClick={this.deleteBook(book.title)}>
+                  <Button onClick={() => this.deleteBook(book.name)}>
                     DELETE
                   </Button>
                 </Carousel.Caption>
@@ -130,7 +134,9 @@ class MyFavoriteBooks extends React.Component {
             </Carousel>
           </Container> : null
         }
-        
+        {/* <BookFormModal>
+          name={this.state.name}
+        </BookFormModal> */}
         <Form>
           <Form.Label>
             Add A Book
