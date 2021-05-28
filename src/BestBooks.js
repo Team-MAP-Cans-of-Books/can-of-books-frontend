@@ -134,7 +134,9 @@ class MyFavoriteBooks extends React.Component {
             </Carousel>
           </Container> : null
         }
-        
+        {/* <BookFormModal>
+          name={this.state.name}
+        </BookFormModal> */}
         <Form>
           <Form.Label>
             Add A Book

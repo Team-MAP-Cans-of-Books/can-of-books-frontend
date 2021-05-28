@@ -2,13 +2,9 @@ import React from 'react';
 import { Modal, Button, Container, Form } from 'react-bootstrap';
 
 class BookFormModal extends React.Component {
-  constructor(props) {
-    super(props)
-  }
 
-
-  return() {
-    render(
+  render() {
+    return(
       <Container>
         <Modal>
           <Modal.Header closeButton>
@@ -19,12 +15,12 @@ class BookFormModal extends React.Component {
             <Form>
               <Form.Group controlId="formBasicEmail">
                 <Form.Label>Author</Form.Label>
-                <Form.Control value={this.props.searchAuthor} name="author" onChange={this.props.} type="text" placeholder="Enter the Name of the Author" />
+                <Form.Control value={this.props.searchAuthor} name="author" onChange={this.props.searchAuthor} type="text" placeholder="Enter the Name of the Author" />
               </Form.Group>
 
               <Form.Group controlId="formBasicEmail">
                 <Form.Label>Book Title</Form.Label>
-                <Form.Control value={this.props.searchTitle} name="book title" onChange={this.props.} type="text" placeholder="Enter Book Title" />
+                <Form.Control value={this.props.searchTitle} name="book title" onChange={this.props.searchTitle} type="text" placeholder="Enter Book Title" />
               </Form.Group>
             </Form>
           </Modal.Body>
