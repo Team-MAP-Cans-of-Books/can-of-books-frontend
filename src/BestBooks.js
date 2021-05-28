@@ -73,6 +73,38 @@ class MyFavoriteBooks extends React.Component {
     }
   }
 
+  // const bookDel = this.setState({bookData[0]});
+
+  deleteBook = async (title) => {
+    console.log(title);
+    let bookDel = 0;
+    for (let i = 0; i< this.state.bookData.length; i++) {
+      if(this.state.bookData[i].title === title){
+        bookDel = i;
+      }
+    };
+    if(this.props.auth0.isAuthenticated) {
+      this.props.auth0.getIdTokenClaims()
+      .then(res => {
+        const jwt = res.__raw;
+        console.log(jwt);
+        const config = {
+          headers: {"Authorization" : `Bearer ${jwt}`},
+          method: 'delete',
+          baseURL: process.env.REACT_APP_SERVER,
+          url: `/books:${this.state.bookData[bookDel].title}`,
+        }
+        axios(config)
+          .then(response => {
+            console.log(response.data)
+            this.setState({bookData: response.data})
+          })
+          .catch(err => console.error(err));
+      })
+      .catch(err => console.error(err));
+    }
+  }
+
   render() {
     console.log(typeof(this.state.bookData))
     return (
@@ -88,6 +120,9 @@ class MyFavoriteBooks extends React.Component {
                 <Carousel.Caption>
                   {book.title}
                   {book.author}
+                  <Button onClick={this.deleteBook(book.title)}>
+                    DELETE
+                  </Button>
                 </Carousel.Caption>
               </Carousel.Item>
               })
@@ -95,7 +130,7 @@ class MyFavoriteBooks extends React.Component {
             </Carousel>
           </Container> : null
         }
-
+        
         <Form>
           <Form.Label>
             Add A Book
